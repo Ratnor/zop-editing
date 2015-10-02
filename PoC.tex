@@ -1,0 +1,16 @@
+\documentclass[12pt]{article}
+\begin{document}
+\title{Problem Statement}
+\author{Cole Blanchard,
+Ratna Emani, Akshay Mantha}
+\date{\today}
+\maketitle
+
+\section{Will a part of the implementation be difficult?}
+Zop was originally implemented in CoffeeScript; a programming language that trans-compiles to JavaScript. Our implementation of Zop will be in Python programming language - thus, understanding the original code and translating it into Python will be a sizeable task. One reason we are taking this risk is because we are more comfortable with Python than we are with CoffeeScript/JavaScript. Time is a constraint for this project as we have only eight more weeks to reproduce the entire project and we cannot learn an entire language in such a short period of time. Another reason to choose to implement Zop in Python is the original code itself. The native developer has written the source code in a very inefficient manner, making the code hard to understand for anyone else. The code is not commented about and there is no proper modularization. Hence, we believe taking the risk of implementing Zop in Python will be a fruitful experience, albeit a bit difficult one.
+\section{Will portability be a concern?}
+The games original creator chose to use Coffee Script, Java Script and HTML to program Zop. It was posted on GitHub for other developers and gamers to access and play. This makes the game very portable, and easy to access. When we were assigned the task to redevelop the game, we chose to program Zop in Python using Pygame. Pygame is a python wrapper for SDL, written by Pete Shinners. Pygame allows developers to write games or other graphical applications in Python on all SDL supported platforms (Windows, Linux, Mac and others). It is this transition in the choice of the programming language that scarified the game’s portability. In order to start the game from source, the user must run the main.py using Python 2.7 (32-bit), and Pygame 1.9.1.
+\section{How will we overcome these risks?}
+In order to overcome the risk of the implementation we will demonstrate our ability to organize the code well so that if future developers were to work on the project, they would have the ability to easily read and understand the code that is in front of them.  Simply commenting on the code and using meaningful variable names should be a sufficient solution to this risk.  Concerning the modularization of the code, we can demonstrate creating separate classes for certain parts of the game (game board, game pieces...) to make the code easier to navigate.  Portability-wise, we will need to negate this risk by providing the user with a fully functioning, bug-free game as well as potentially implementing newer and fresher features to the game such as power-ups and levels in order to attract players to actually download and play the game.
+
+\end{document}

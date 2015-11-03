@@ -86,14 +86,14 @@ class Logic:
                 tempRow = row #save the initial row and col of the first tile
                 tempCol = col
                 colour = board.getBoard()[tempRow][tempCol]
-                countScore += 1
+                countScore += 1	
             board.printBoard()
 
         if contTurn == 'n': #if the user does not want to continue their turn
             Logic.addTile(board) #update the board with its new values
             board.printBoard()
             contGame = input("Continue game?(y/n): ") # asks the user if they want to continue game
-            if contGame == 'y': # if the user wishes to continue game 'y', recurssively use userInput with the current board state.
+            if contGame == 'y': # if the user wishes to continue game 'y', recursively use userInput with the current board state.
                 Logic.userInput(board)
             else: #otherwise game ends
                 print("GAME OVER")

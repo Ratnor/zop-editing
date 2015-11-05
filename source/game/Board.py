@@ -15,7 +15,7 @@ class Board:
     def printBoard(self):
         for i in range(0,6):
             for j in range(0,6):
-                print(self.board[i][j], end=" ")
+                print(self.board[i][j], end = " ")
             print("")
         print("")
 

@@ -116,60 +116,59 @@ The Operating System (OS) must implement some modules in order to perform other 
 
 \section{Module Decomposition}
 \subsection{Hardware Hiding Modules (M1)}
-\textbf{Secrets:} the primary secret hidden by this module is the hardware/software interfaces. Also the data structures and algorithms used to implement the virtual hardware
-\textbf{Service:} controls the procedures that are used to handle the hardware/software interface changes with the same general capabilities. This is achieved by using virtual hardware, a digital hardware/software connection it can rely on. 
+\textbf{Secrets:} the primary secret hidden by this module is the hardware/software interfaces. Also the data structures and algorithms used to implement the virtual hardware\\
+\textbf{Service:} controls the procedures that are used to handle the hardware/software interface changes with the same general capabilities. This is achieved by using virtual hardware, a digital hardware/software connection it can rely on. \\
 \textbf{Implemented By:} OS
 
 \subsection{Main Module (M2)}
-\textbf{Secrets:} Hides everything from the game mechanics to the sensitive design decisions.
-\textbf{Service:} Is used to execute the game, called by the user or the front-end implementation when a GUI is developed.
-
+\textbf{Secrets:} Hides everything from the game mechanics to the sensitive design decisions.\\
+\textbf{Service:} Is used to execute the game, called by the user or the front-end implementation when a GUI is developed.\\
 \textbf{Implemented By:} -
 
 \subsection{userInput Module (M3)}
-\textbf{Secrets:} Hides all the software decision modules.
-\textbf{Service:} serves as the only gateway in the behaviour-hiding module to use the software decision modules, reinforcing encapsulation and information hiding. 
+\textbf{Secrets:} Hides all the software decision modules.\\
+\textbf{Service:} serves as the only gateway in the behaviour-hiding module to use the software decision modules, reinforcing encapsulation and information hiding. \\
 \textbf{Implemented By:} Main Module
 
 \subsection{Board Module (M4)}
-\textbf{Secrets:} Hides the Tile object from the rest of the game logic.
-\textbf{Service:} creates a six index by six index two-dimensional array, and populates the fields with the Tile object.
+\textbf{Secrets:} Hides the Tile object from the rest of the game logic.\\
+\textbf{Service:} creates a six index by six index two-dimensional array, and populates the fields with the Tile object.\\
 \textbf{Implemented By:} Main Module
 
 
 \subsection{Tile Module (M5)}
-\textbf{Secrets:} generated randomly
-\textbf{Service:} creates a tile object with a random selection made from a set array of colors. 
+\textbf{Secrets:} generated randomly\\
+\textbf{Service:} creates a tile object with a random selection made from a set array of colors. \\
 \textbf{Implemented By:} Board Module
 
 \subsection{colorMatch Module (M6)}
-\textbf{Secrets:} hides part of the data – Ignores the index location
-\textbf{Service:} Given a set of Tile objects, the module is responsible for checking the colors of the tile and confirm if they are all same. 
+\textbf{Secrets:} hides part of the data – Ignores the index location\\
+\textbf{Service:} Given a set of Tile objects, the module is responsible for checking the colors of the tile and confirm if they are all same. \\
 \textbf{Implemented By:} userInput Module
 
 \subsection{adjacent Module (M7)}
-\textbf{Secrets:} hides part of the data – Ignores the index value
-\textbf{Service:} Given a set of Tile objects, the module is responsible for checking if the tiles are all adjacent to each other – horizontal and/or vertical (not diagonal).
+\textbf{Secrets:} hides part of the data – Ignores the index value\\
+\textbf{Service:} Given a set of Tile objects, the module is responsible for checking if the tiles are all adjacent to each other – horizontal and/or vertical (not diagonal).\\
 \textbf{Implemented By:} userInput Module
 
 \subsection{removeTile Module (M8)}
-\textbf{Secrets:} secures the rest of the board tiles to avoid any loss of data
-\textbf{Service:} Isolates the selected tiles from the remaining pieces to keep track and update the states of the game board. Finally marks the removed tile with a flag.
+\textbf{Secrets:} secures the rest of the board tiles to avoid any loss of data\\
+\textbf{Service:} Isolates the selected tiles from the remaining pieces to keep track and update the states of the game board. Finally marks the removed tile with a flag.\\
 \textbf{Implemented By:} userInput Module
 
 \subsection{checkColumn Module (M9)}
-\textbf{Secrets:} secures the order of the rest of the columns on the board to avoid any loss of data
-\textbf{Service:} Isolates the selected columns and counts the number of flagged tiles and removes them.
+\textbf{Secrets:} secures the order of the rest of the columns on the board to avoid any loss of data\\
+\textbf{Service:} Isolates the selected columns and counts the number of flagged tiles and removes them.\\
 \textbf{Implemented By:} removeTile Module
 
 \subsection{moveDown Module (M10)}
-\textbf{Secrets:} works only with the columns being updated, hiding the rest of the board for being changed
-\textbf{Service:} with the given column number and the number of missing tiles, moves all the tiles down. Implements the law of gravity within the board.
+\textbf{Secrets:} works only with the columns being updated, hiding the rest of the board for being changed\\
+\textbf{Service:} with the given column number and the number of missing tiles, moves all the tiles down. Implements the law of gravity within the board.\\
 \textbf{Implemented By:} checkColumn Module
 
 \subsection{addTile Module (M11)}
-\textbf{Secrets:} accesses only the very top row of the matrix, hiding the rest of the board from being changed
-\textbf{Service:} with the given column number and the number of missing tiles, addTile fills the missing fields with new Tile objects.
+\textbf{Secrets:} accesses only the very top row of the matrix, hiding the rest of the board from being changed\\
+\textbf{Service:} with the given column number and the number of missing tiles, addTile fills the missing fields with new Tile objects.\\
 \textbf{Implemented By:} moveDown Module
 
 \section{Traceability Matrix} \label{SecTM}

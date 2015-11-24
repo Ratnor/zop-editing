@@ -22,16 +22,18 @@ YELLOW = (255,255,0)
 board = Board()
 screen = pygame.display.set_mode(size)
 score = 0
+displayedScore = 0
 selectedRow = 0
 selectedCol = 0
 selectedColour = 0
-
+time = 60
 done = False
 clock = pygame.time.Clock()
 
 #grid
 
 def display():
+
     for row in range(6):
         for col in range(6):
             if board.getBoard()[row][col] == "R":
@@ -51,7 +53,16 @@ def display():
                     [(margin + WIDTH) * col + margin,
                     (margin + HEIGHT) * row + margin,
                     WIDTH, HEIGHT])
+    timer = (int)(time - ((pygame.time.get_ticks())/1000)) +1
+    texts(displayedScore, timer)
     pygame.display.flip()
+
+def texts(_score, _timer):
+    font = pygame.font.Font(None,30)
+    scoretext = font.render("Score: " + str(_score), 1, (255,255,255))
+    screen.blit(scoretext, (150, 10))
+    timertext = font.render("Time: " + str(_timer), 1, (255,255,255))
+    screen.blit(timertext, (10,10))
 
 
 while not done:
@@ -76,14 +87,13 @@ while not done:
                     selectedRow = row
                     selectedCol = column
                     Logic.removeTile(board,selectedRow,selectedCol)
+                    score+=1
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                displayedScore += score
                 Logic.addTile(board)
                 score = 0
-
-
-
 
     clock.tick(60)
     pygame.display.flip()

@@ -1,10 +1,11 @@
 import sys, pygame
 from Board import *
 from Logic import *
+from pygame.locals import *
 pygame.init()
 
 pygame.init()
-size = width, height = 252, 252
+size = width, height = 252, 280
 margin = 6
 WIDTH = 35
 HEIGHT = 35
@@ -29,8 +30,9 @@ selectedColour = 0
 time = 60
 done = False
 clock = pygame.time.Clock()
+seconds = 100 #time in seconds
+pygame.time.set_timer(USEREVENT+1, 1000)#1 second is 1000 milliseconds
 
-#grid
 
 def display():
 
@@ -53,16 +55,17 @@ def display():
                     [(margin + WIDTH) * col + margin,
                     (margin + HEIGHT) * row + margin,
                     WIDTH, HEIGHT])
-    timer = (int)(time - ((pygame.time.get_ticks())/1000)) +1
-    texts(displayedScore, timer)
+   # timer = (int)(time - ((pygame.time.get_ticks())/1000)) +1
+   # texts(displayedScore, timer)
     pygame.display.flip()
 
-def texts(_score, _timer):
+def texts(_score):
     font = pygame.font.Font(None,30)
     scoretext = font.render("Score: " + str(_score), 1, (255,255,255))
-    screen.blit(scoretext, (150, 10))
-    timertext = font.render("Time: " + str(_timer), 1, (255,255,255))
-    screen.blit(timertext, (10,10))
+    screen.blit(scoretext, (150, 260))
+    #timertext = font.render("Time: " + str(_timer), 1, (255,255,255))
+    #screen.blit(timertext, (10,260))
+    clear()
 
 
 while not done:
@@ -74,6 +77,9 @@ while not done:
             pos = pygame.mouse.get_pos()
             column = pos[0]//(WIDTH+margin)     ##returns the y coordinate of the board
             row = pos[1] //(WIDTH+margin)       ##returns the x coordinate of the board
+
+        elif event.type == USEREVENT + 1:
+            seconds+=1
 
             if score == 0:
                 selectedRow = row

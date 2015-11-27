@@ -1,53 +1,43 @@
 from unittest import TestCase
-from Tile import Tile
+
 from Board import Board
 from Logic import Logic
+import random
 __author__ = 'owner'
 
 
-class TestTile(TestCase):
-  def test_get_colour(self):
-      t = Tile
-      self.assertRaises(Exception, t.getColor,)
+class TestZop(TestCase):
 
-  def test_getBoard(self):
-      b = Board
-      self.assertRaises(Exception, b.getBoard, self)
 
-  def test_initialization_Board(self):
-      b_b = Board
-      self.assertRaises(Exception, b_b.__init__, None)
+  def test_removeTile(self): #System test - 3.1
+      b = Board()
+      l_a = Logic.removeTile(b, 0, 0)
+      self.assertEqual(b.getBoard()[0][0], 0) #Assertion to check that when tile is removed, the empty spot is given value =0
 
-  def test_removeTile(self):
-      l = Logic
-      b_c = Board
-      self.assertRaises(Exception, l.removeTile, b_c, 2, 3)
+  def test_remove2(self): #System test - 3.2
+      b = Board()
+      l_b = Logic.removeTile(b, 0, 0)
+      self.assertNotEqual(b.getBoard()[0][0], 1) #Assertion to check that when tile is removed, the empty spot is NOT given value =0
 
-  def test_checkColumn(self):
-      l_b = Logic
-      b_d = Board
-      self.assertRaises(TypeError, l_b.checkColumn, "a", b_d)
+  def test_addTile(self): #System test - 3.5
+      b = Board()
+      for i in range(0, 5):
+          for j in range(0, 5):
+              self.assertNotEqual(b.getBoard()[i][j], 0) #Assertion is to make sure that the board is always populated with 36 tiles (board size is 6x6)
 
-  def test_move_down(self):
-      l_c = Logic
-      b_e = Board
-      self.assertRaises(Exception, l_c.moveDown, 4, b_e, 2)
+  def test_colourMatch(self): #System test - 3.3
+      b = Board()
+      colour = random.choice(["R","B","G","P","Y"])
+      ll = Logic.colourMatch(b,0,0,colour)
+      self.assertEqual(b.getBoard()[0][0] == colour, True)
 
-  def test_addTile(self):
-      l_d = Logic
-      b_f = Board
-      self.assertRaises(Exception, l_d.addTile, b_f)
+  def test_adjacency(self): #System test - 3.6
+      logic = Logic()
+      self.assertTrue(logic.adjacent(2,0,2,1)) #When tiles are adjacent, assertion will be True (or else it will be False)
 
-  def test_colourMatch(self):
-      l_e = Logic
-      b_g = Board
-      t_a = Tile
-      self.assertRaises(Exception, l_e.colourMatch, b_g, 2, 2, t_a.getColor)
+  def test_exception_moveDown(self): #System test - 3.7
+      l = Logic()
+      b = Board()
+      self.assertRaises(TypeError, l.moveDown, 'a', b, 0) # moveDown from Logic takes three arguments: columnNumber, board, and numEmpty, but this assertion throws one string in place of an integer (i.e. a character for 'columnNumber' instead of number); thus it is TypeException
 
-  def test_adjacency(self):
-      l_f = Logic
-      self.assertRaises(Exception, l_f.adjacent, 2, 2, 0, 1)
-
-  #def test_demo(self):
-     # self.fail()
 

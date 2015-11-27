@@ -13,9 +13,11 @@ class Board:
 
     #prints the board in the console
     def printBoard(self):
+        count = 1
+        print("  1 2 3 4 5 6")
         for i in range(0,6):
+            print(count+i, end = " ")
             for j in range(0,6):
-                print(self.board[i][j], end = " ")
+                print(self.board[i][j], end=" ")
             print("")
         print("")
-

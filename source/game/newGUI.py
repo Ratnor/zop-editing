@@ -117,6 +117,8 @@ class GameMenu():
                                     selectedCol = column
                                     Logic.removeTile(board,selectedRow,selectedCol)
                                     self.score+=1
+                            if event.type == pygame.MOUSEBUTTONUP:
+                                self.isDragging = False
 
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.isDragging = False

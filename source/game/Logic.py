@@ -3,12 +3,12 @@ import Board as B
 class Logic:
 
     #removes tile
-    def removeTile(self, board, row, col):
+    def removeTile(board, row, col):
         board.getBoard()[row][col] = 0 #sets board value at row, col to 0 (empty)
         return board
 
     #checks a column (columnNumber) for the number of empty spaces in it, returns number of empty spaces (numEmpty)
-    def checkColumn(self, columnNumber, board):
+    def checkColumn(columnNumber, board):
         numEmpty = 0
         for i in range(0, 6):
             if board.getBoard()[i][columnNumber] == 0:
@@ -16,7 +16,7 @@ class Logic:
         return numEmpty
 
     #move tiles down to empty positions in a column (columnNumber)
-    def moveDown(self, columnNumber, board, numEmpty):
+    def moveDown(columnNumber, board, numEmpty):
         for i in range(5, numEmpty-1, -1):#checks each tile in column, starting with the bottom one, to the number of empty spaces
             if board.getBoard()[i][columnNumber] == 0:#if the tile is empty
                 for j in range(i-1, -1, -1):#check each tile space in the column for a filled tile spaces
@@ -26,23 +26,23 @@ class Logic:
                         break
 
     #update the board with new tile position (after a turn) uses checkColumn and moveDown
-    def addTile(self, board):
+    def addTile(board):
         for i in range(0, 6):
             numEmpty = Logic.checkColumn(i, board)#gets the number of empty spaces in each column
             if numEmpty != 0: #if there are empty tiles move the tiles into new postion
                  Logic.moveDown(i, board, numEmpty)
                  for j in range(0, numEmpty):
-                    board.getBoard()[j][i] = B.T.Tile().getColor  #for the number of empty spaces in a column, replaces the corresponding number on the top of the column with a new tile object
+                    board.getBoard()[j][i] = B.T.Tile().getColor()#for the number of empty spaces in a column, replaces the corresponding number on the top of the column with a new tile object
 
     #checks if the colour of the tiles are the same
-    def colourMatch(self, board, row, col, colour):
+    def colourMatch(board, row, col, colour):
         if board.getBoard()[row][col] == colour:
             return True
         else:
             return False
 
     #checks if the newly selected tile, is adjacent to the currently selected one
-    def adjacent(self, row1, col1, row2, col2):
+    def adjacent(row1, col1, row2, col2):
         if row1 == row2:
             if (col1 == col2+1) | (col1 == col2-1):
                 return True
@@ -57,7 +57,7 @@ class Logic:
             return False
 
     #user input, enter a row and column to select the tiles you want to delete
-    def userInput(self, board):
+    def userInput(board):
         countScore = 0
         contTurn = 'y'
         contGame = 'y'
@@ -86,14 +86,14 @@ class Logic:
                 tempRow = row #save the initial row and col of the first tile
                 tempCol = col
                 colour = board.getBoard()[tempRow][tempCol]
-                countScore += 1	
+                countScore += 1
             board.printBoard()
 
         if contTurn == 'n': #if the user does not want to continue their turn
             Logic.addTile(board) #update the board with its new values
             board.printBoard()
             contGame = input("Continue game?(y/n): ") # asks the user if they want to continue game
-            if contGame == 'y': # if the user wishes to continue game 'y', recursively use userInput with the current board state.
+            if contGame == 'y': # if the user wishes to continue game 'y', recurssively use userInput with the current board state.
                 Logic.userInput(board)
             else: #otherwise game ends
                 print("GAME OVER")

@@ -1,51 +1,57 @@
-import Tile as T
+import Board as B
+#logic of the game (Logic use the Board Class)
+class Logic:
 
-class Logic: 
-        
-    def userInput():       
-        coord = []
+    #removes tile
+    def removeTile(board, row, col):
+        board.getBoard()[row][col] = 0 #sets board value at row, col to 0 (empty)
+        return board
 
-        n = int(input("how many tiles would you like to select? "))            #coordinate count
-        xArray = [0]*n  #array to hold the x-coordinates
-        yArray = [0]*n  #array to hold the y-coordinates
-        
-        for i in range(n):
-            print (i)
-            xArray[i] = int(input("Enter X: "))
-            yArray[i] = int(input("Enter Y: "))
+    #checks a column (columnNumber) for the number of empty spaces in it, returns number of empty spaces (numEmpty)
+    def checkColumn(columnNumber, board):
+        numEmpty = 0
+        for i in range(0, 6):
+            if board.getBoard()[i][columnNumber] == 0:
+                numEmpty += 1
+        return numEmpty
 
-            coord = list(zip(xArray, yArray))
+    #move tiles down to empty positions in a column (columnNumber)
+    def moveDown(columnNumber, board, numEmpty):
+        for i in range(5, numEmpty-1, -1):#checks each tile in column, starting with the bottom one, to the number of empty spaces
+            if board.getBoard()[i][columnNumber] == 0:#if the tile is empty
+                for j in range(i-1, -1, -1):#check each tile space in the column for a filled tile spaces
+                    if board.getBoard()[j][columnNumber] != 0 :#if we find a filled tile
+                        board.getBoard()[i][columnNumber] = board.getBoard()[j][columnNumber]#set the colour value of the current tile to the originally empty tile
+                        board.getBoard()[j][columnNumber] = 0#the current tile is now empty
+                        break
 
-        return coord
+    #update the board with new tile position (after a turn) uses checkColumn and moveDown
+    def addTile(board):
+        for i in range(0, 6):
+            numEmpty = Logic.checkColumn(i, board)#gets the number of empty spaces in each column
+            if numEmpty != 0: #if there are empty tiles move the tiles into new postion
+                 Logic.moveDown(i, board, numEmpty)
+                 for j in range(0, numEmpty):
+                    board.getBoard()[j][i] = B.T.Tile().getColor()#for the number of empty spaces in a column, replaces the corresponding number on the top of the column with a new tile object
 
-    
-# Check if the pieces are in line {add to function.docx}
+    #checks if the colour of the tiles are the same
+    def colourMatch(board, row, col, colour):
+        if board.getBoard()[row][col] == colour:
+            return True
+        else:
+            return False
 
-
-    def colorMatch(coord, Board, color):
-        xArray = []
-        yArray = []
-        for i in range(len(coord)):
-            tupple = coord[i]
-            xArray.append(tupple[0])        # x: array with all the x-coordinates
-            yArray.append(tupple[1])        # y: array with all the y-coordinates
-
-        for x in range(len(Board)):
-            for y in range (len(Board)):
-                if (Board[x][y].getColor() == color):
-                    return True
-                else:
-                    return False
-  
-    def score(tilesRemoved):
-        return tilesRemoved
-def main():
-##    board = [[T.Tile(x,y).getColor() for x in range(6)] for y in range(6)]
-##    for i in range(0,6):
-##        for j in range(0,6):
-##            print(board[i][j], end =" ")
-##    print("")
-
-    print (Logic.userInput())
-##    print (Logic.score(3))
-    
+    #checks if the newly selected tile, is adjacent to the currently selected one
+    def adjacent(row1, col1, row2, col2):
+        if row1 == row2:
+            if (col1 == col2+1) | (col1 == col2-1):
+                return True
+            else:
+                return False
+        elif col1 == col2:
+            if (row1 == row2+1) | (row1 == row2-1):
+                return True
+            else:
+                return False
+        else:
+            return False

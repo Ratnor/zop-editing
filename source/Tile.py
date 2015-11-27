@@ -1,18 +1,16 @@
 import random
+#tile class which contains the value of each tile
 class Tile:
 
-    def __init__(self,x,y):
+    #create a tile object
+    def __init__(self):
+        #possible colours of each tile
         color = ["R","B","G","P","Y"]
-        self.x = x
-        self.y = y
+        #randomly choose one colour
         self.color = random.choice(color)
 
+    #gets the tile's colour
     def getColor(self):
         return self.color
 
-    def getX(self):
-        return self.x
-
-    def getY(self):
-        return self.y
 

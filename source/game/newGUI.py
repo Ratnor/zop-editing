@@ -1,3 +1,4 @@
+
 import pygame
 from Board import *
 from Logic import *
@@ -46,6 +47,8 @@ class GameMenu():
         self.score = 0
         self.displayedScore = displayedScore
 
+        self.isDragging = False
+
 
     def delay(self):
         count = 0
@@ -87,39 +90,46 @@ class GameMenu():
             if gameDisplay:
                 self.display()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    pos = pygame.mouse.get_pos()
-                    if (((pos[0] >= 0) & (pos[0] <= self.gameWidth)) & ((pos[1] >= 0 & pos[1]) <= (self.gameHeight))): ## if we click within game display
-                        column = pos[0]//(self.blockWidth+self.blockMargin)     ##returns the y coordinate of the board
-                        row = pos[1] //(self.blockHeight+self.blockMargin)       ##returns the x coordinate of the board
-                        if row >= 6:
-                            row = 5
-                        if column >= 6:
-                            column = 5
+                    self.isDragging = True
 
-                        if self.score == 0:
-                            selectedRow = row
-                            selectedCol = column
-                            selectedColour = board.getBoard()[row][column]
-                            Logic.removeTile(board,selectedRow,selectedCol)
-                            self.score+=1
+                if self.isDragging:
+                    if event.type == pygame.MOUSEMOTION:
+                        pos = pygame.mouse.get_pos()
+                        if (((pos[0] >= 0) & (pos[0] <= self.gameWidth)) & ((pos[1] >= 0 & pos[1]) <= (self.gameHeight))): ## if we click within game display
+                            column = pos[0]//(self.blockWidth+self.blockMargin)     ##returns the y coordinate of the board
+                            row = pos[1] //(self.blockHeight+self.blockMargin)       ##returns the x coordinate of the board
+                            if row >= 6:
+                                row = 5
+                            if column >= 6:
+                                column = 5
 
-                        if self.score >= 1:
-                            if Logic.adjacent(selectedRow, selectedCol, row, column) & Logic.colourMatch(board,row,column,selectedColour):# if colours are the same, and the tiles are adjacent
+                            if self.score == 0:
                                 selectedRow = row
                                 selectedCol = column
+                                selectedColour = board.getBoard()[row][column]
                                 Logic.removeTile(board,selectedRow,selectedCol)
                                 self.score+=1
 
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
+
+                            if self.score >= 1:
+                                if Logic.adjacent(selectedRow, selectedCol, row, column) & Logic.colourMatch(board,row,column,selectedColour):# if colours are the same, and the tiles are adjacent
+                                    selectedRow = row
+                                    selectedCol = column
+                                    Logic.removeTile(board,selectedRow,selectedCol)
+                                    self.score+=1
+
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.isDragging = False
+                    if self.score == 1:
+                        board.getBoard()[row][column] = selectedColour
+                    else:
                         self.displayedScore += self.score
-                        print(self.displayedScore)
                         Logic.addTile(board)
-                        self.score = 0
-                        if self.displayedScore >= 10:
-                            gameDisplay = False
-                            self.screen.fill(self.bg_color)
-                            endDisplay = True
+                    self.score = 0
+                    if self.displayedScore >= 10:
+                        gameDisplay = False
+                        self.screen.fill(self.bg_color)
+                        endDisplay = True
 
             #start menu display
             if startDisplay:
@@ -175,7 +185,7 @@ class GameMenu():
 if __name__ == "__main__":
     # Creating the screen
     screenWidth = 600
-    screenHeight = int(screenWidth - (screenWidth/7))
+    screenHeight = int(screenWidth - (screenWidth/6))
     screen = pygame.display.set_mode((screenWidth, screenHeight), 0, 32)
 
     startMenu_items = ('Start', 'High Scores', 'Quit')

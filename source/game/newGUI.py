@@ -121,12 +121,12 @@ class GameMenu():
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.isDragging = False
                     if self.score == 1:
-                        board.getBoard()[row][column] = selectedColour
+                        board.getBoard()[selectedRow][selectedCol] = selectedColour
                     else:
                         self.displayedScore += self.score
                         Logic.addTile(board)
                     self.score = 0
-                    if self.displayedScore >= 10:
+                    if self.displayedScore >= 60:
                         gameDisplay = False
                         self.screen.fill(self.bg_color)
                         endDisplay = True

@@ -63,7 +63,6 @@ class GameMenu():
         startDisplay = True
         gameDisplay = False
         endDisplay = False
-        countFrames = 0
         time = 60
 
         while mainloop:
@@ -92,11 +91,6 @@ class GameMenu():
 
             # game display
             if gameDisplay:
-                count +=1
-                if count == 50:
-                    time -=1
-                    print(time)
-                    count = 0
 
                 self.display()
                 if event.type == pygame.MOUSEBUTTONDOWN:

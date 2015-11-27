@@ -1,6 +1,6 @@
 import Tile as T
 
-#board class which initializes theg game board (Board use the Tile class)
+#board class which initializes the game board (Board use the Tile class)
 class Board:
     #creates the board object
     def __init__(self):
@@ -12,10 +12,4 @@ class Board:
         return self.board
 
     #prints the board in the console
-    def printBoard(self):
-        for i in range(0,6):
-            for j in range(0,6):
-                print(self.board[i][j], end = " ")
-            print("")
-        print("")
 

@@ -58,6 +58,8 @@ class GameMenu():
         startDisplay = True
         gameDisplay = False
         endDisplay = False
+        time = 100
+        pygame.time.set_timer(USEREVENT+1, 1000)
 
         while mainloop:
             # Limit frame speed to 50 FPS
@@ -120,7 +122,12 @@ class GameMenu():
                             gameDisplay = False
                             self.screen.fill(self.bg_color)
                             endDisplay = True
+                for event in pygame.event.get():
+                    if event.type == USEREVENT+1:
+                        time -= 1
 
+                    if time == 0:
+                        print "GAME OVER"
             #start menu display
             if startDisplay:
                 # Redraw the background
@@ -166,7 +173,7 @@ class GameMenu():
                 elif self.board.getBoard()[row][col] == "B":
                     color = (0, 0, 255)#blue
                 elif self.board.getBoard()[row][col] == 0:
-                    color = (0, 0, 0)#black
+                    color = (180,180,180)#grey
                 pygame.draw.rect(self.screen,color,
                         [(self.blockMargin + self.blockWidth) * col + self.blockMargin,
                         (self.blockMargin + self.blockHeight) * row + self.blockMargin,
@@ -185,3 +192,4 @@ if __name__ == "__main__":
     pygame.display.set_caption('Zop')
     gm = GameMenu(screen, startMenu_items, board, displayedScore)
     gm.run()
+

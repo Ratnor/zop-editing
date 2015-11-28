@@ -207,7 +207,7 @@ class GameMenu():
                                 startDisplay = False
                                 self.screen.fill(self.bg_color)
                                 self.delay()
-                                pygame.time.set_timer(pygame.USEREVENT, 6000)
+                                pygame.time.set_timer(pygame.USEREVENT, 1000)
                                 gameDisplay = True
                             elif index == 1:
                                 print("High Scores")

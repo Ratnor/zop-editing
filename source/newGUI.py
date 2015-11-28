@@ -1,6 +1,6 @@
 
 import pygame
-from Board import *
+from board import *
 from Logic import *
 pygame.init()
 
@@ -244,7 +244,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((screenWidth, screenHeight), 0, 32)
 
     startMenu_items = ('Start', 'High Scores', 'Quit')
-    board = Board()
+    board = board()
     displayedScore = 0
 
     pygame.display.set_caption('Zop')

@@ -29,7 +29,7 @@ class TestZop(TestCase):
       b = Board()
       colour = random.choice(["R","B","G","P","Y"])
       ll = Logic.colourMatch(b,0,0,colour)
-      self.assertEqual(b.getBoard()[0][0] == colour, True)
+      self.assertEqual(b.getBoard()[0][0] == colour, True) #colour matches, then assertion is true (if not, then false)
 
   def test_adjacency(self): #System test - 3.6
       logic = Logic()

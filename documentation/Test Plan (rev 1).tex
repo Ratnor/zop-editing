@@ -6,7 +6,6 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{colortbl}
-\usepackage{color}
 \usepackage{xr}
 \usepackage{hyperref}
 \usepackage{longtable}
@@ -81,6 +80,10 @@
  \hline
  \textbf{Developer} & \textbf{Date} & \textbf{Change} & \textbf{Revision Number}\\
  \hline \hline
+ Ratna Emani & November 27 2015 & Update Tex file & 6\\
+ \hline
+ Akshay Mantha & November 27 2015 & Update Test plan & 5\\
+ \hline
  Cole Blanchard & October 23 2015 & 3.5 Board Update Test, \newline 3.6 Tile Adjacency Check & 4\\
  \hline
  Ratna Emani & October 23 2015 & Reliability,\newline Maintainability, \newline Correctness, Ease of Use,\newline 3.4 Raw Game-play Test & 3\\
@@ -144,20 +147,20 @@ Automated PyUnit testing will be used to ensure that the internal functions are 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{System Tests}
-%3.1 Number of Tiles Removed and Score Are the Same
-\subsection{Number of Tiles Removed and Score Are the Same}
+%3.1 Tile(s) Removed and Value is set to 0
+\subsection{Tile(s) Removed and Value is set to 0}
 \subsubsection{Test type}
-Manual, functional test
+Automated, unit test
 \subsubsection{Initial state}
-The board is initialized, size of 6 by 6; 36 tiles in place.
+The board is initialized, size of 6 by 6; 36 blocks in place.
 \subsubsection{Input}
-Count of the tiles removed.
+Tile(s) removed (after matching).
 \subsubsection{Output}
-The score is updated by the same number as the count of tiles removed.
+The value of tile(s) removed is 0.
 \subsubsection{Schedule}
 This feature will be implemented for the Proof of Concept Demonstration.
 \subsubsection{Methodology}
-This test can be done manually by developers. The tester will give the function an input that is a positive integer representing the count of tiles removed and submit the changes. Then, the tester can validate the updated score.
+This test can be done using PyUnit (unit-testing framework) in PyCharm (an IDE). PyUnit should pass the test case.
 \subsubsection{Test tool}
 Integration testing can be used as a tool to see how this function communicates with other functions of the system.
 \subsubsection{Test for}
@@ -165,28 +168,28 @@ This test validates the "happy path" scenario of updated score requirement.
 
 \newpage
 
-%3.2 Number of Tiles Removed and Score are Not the Same
-\subsection{Number of Tiles Removed and Score are Not the Same}
+%3.2 Tile(s) Removed and Value is not set to 0
+\subsection{Tile(s) Removed and Value is not set to 0}
 \subsubsection{Test type}
-Manual, functional test
+Automated, unit test
 \subsubsection{Initial state}
-The board is initialized, size of 6 by 6; 36 tiles in place.
+The board is initialized, size of 6 by 6; 36 blocks in place.
 \subsubsection{Input}
-Count of the tiles removed.
+Tile(s) removed (after matching).
 \subsubsection{Output}
-The score is updated by the same number as the count of tiles removed.
+The value of tile(s) removed is not 0.
 \subsubsection{Schedule}
-This feature is not so critical, thus it will be implemented after the Proof of Concept Demonstration.
+This feature will be implemented for the Proof of Concept Demonstration.
 \subsubsection{Methodology}
-This test can be done manually by developers. The tester will give the function an input that is a positive integer representing the count of tiles removed and submit the changes. Then, the tester can validate the updated score that should not be equal to the count of tiles removed.
+This test can be done using PyUnit (unit-testing framework) in PyCharm (an IDE). PyUnit should pass the test case.
 \subsubsection{Test tool}
 Integration testing can be used as a tool to see how this function communicates with other functions of the system.
 \subsubsection{Test for}
-This test validates the negative scenario of updated score requirement.
+This test validates the negative scenario of  removing tile (leads to unupdated score) requirement. 
 
 \newpage
 
-%3.3 Colour Match of Tiles
+%3.3 Colour Match of Blocks
 \subsection{Colour Match of Tiles}
 \subsubsection{Test type}
 Automated, unit test
@@ -207,49 +210,28 @@ This test validates the requirement of selecting tiles of same colour to obtain 
 
 \newpage
 
-%3.4 Colour Raw Gameplay Test 
-\subsection{Raw Game-play Test}
-\subsubsection{Test type}
-Acceptance testing, alpha testing
-\subsubsection{Initial state}
-The game is set up to play but without a graphic interface. 
-\subsubsection{Input}
-Coordinates of tiles are inserted by the user into the prompted text.
-\subsubsection{Output}
-The selected set of pieces move according to the rules of the game. (I.e. if the colour matches the tiles will be replaced by the tiles above them and count the score; similarly, if the color does not match the tiles will remain the same and the score does not change).
-\subsubsection{Schedule}
-This feature will be implemented for the Proof of Concept Demonstration.
-\subsubsection{Methodology}
-This test must be done by the development team as they piece the project. Also by the client, in this case the Professor and the supervising TA. 
-\subsubsection{Test tool}
-A simple walk-through demonstrations to show the functions and temporary pitfalls of the in-design game.
-\subsubsection{Test for}
-This test validates if the game is progressing towards meeting its requirements and specifications.
-
-\newpage
-
-%3.5 Board Update Test
+%3.4 Board Update Test
 \subsection{Board Update Test}
 \subsubsection{Test type}
 Automated, Structural test
 \subsubsection{Initial state}
-State after removing tiles from the board (some spaces are empty). 
+State after removing tiles from the board (some spaces are empty).
 \subsubsection{Input}
-6x6 array (empty spaces flagged).
+6x6 array (empty spaces ﬂagged).
 \subsubsection{Output}
-6x6 array (no empty spaces remaining, tiles above move down to fill empty spaces).
+6x6 array (no empty spaces remaining, tiles above move down to ﬁll empty spaces).
 \subsubsection{Schedule}
 This feature will be implemented for the Proof of Concept Demonstration.
 \subsubsection{Methodology}
-Using PyUnit, the test will remove 0-6 blocks in a column. PyUnit should execute and ensure the tiles above move into the correct space in the next state of the board. Then it will ensure there are no more empty spaces on the board.
+Using PyUnit, the test will remove 0-6 blocks in a column. PyUnit should execute and ensure the tiles above move into the correct space in the next state of the board. Then it will ensure there are no more empty spaces on the board. 
 \subsubsection{Test tool}
 Unit testing can be used to see how the function works within the system.
 \subsubsection{Test for}
-The test validates that all empty spaces in the previous state of the board have been filled with the tiles above it in the next state as well as randomly coloured blocks to fill in spaces which do not have tiles above.
+The test validates that all empty spaces in the previous state of the board have been ﬁlled with the tiles above it in the next state as well as randomly coloured blocks to ﬁll in spaces which do not have tiles above.
 
 \newpage
 
-%3.6 Tile Adjacency Check
+%3.5 Tile Adjacency Check
 \subsection{Tile Adjacency Check}
 \subsubsection{Test type}
 Automated, unit test
@@ -268,5 +250,25 @@ Unit testing can be used to see how the function works in the system.
 \subsubsection{Test for}
 The test validates that tiles being removed are next to each other, in a direct path (horizontal or vertical only).
 
+\newpage
+
+%3.6 Type Exception Check (While Moving Tiles Down)
+\subsection{Type Exception Check (While Moving Tiles Down)}
+\subsubsection{Test type}
+Automated, Structural test
+\subsubsection{Initial state}
+Board is initialized; 6x6 array.
+\subsubsection{Input}
+Column number, instance of boad, and an integer representing the number of empty spaces (in a column). 
+\subsubsection{Output}
+Assertion should throw a 'TypeError' if either the column number is not an integer, some other object/class is instantiated instead of board, and there is no integer to represent the number of empty spaces (in a column).
+\subsubsection{Schedule}
+This feature will be implemented for the Final Presentation.
+\subsubsection{Methodology}
+PyUnit will see, if parameters of the moveDown method are of correct type or not. 
+\subsubsection{Test tool}
+Unit testing can be used to see how robust the function is with respect to parameters.
+\subsubsection{Test for}
+The test validates throwing exceptions.
 
 \end{document}

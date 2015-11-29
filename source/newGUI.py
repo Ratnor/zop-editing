@@ -6,17 +6,18 @@ pygame.init()
 
 
 class GameMenu():
-    def __init__(self, screen, startItems, board, displayedScore, bg_color=(180,180,180), font=None, font_color=(0, 0, 0)):
+    def __init__(self, screen, startItems, board, displayedScore, bg_color=(0,0,0), font=None, font_color=(0, 0, 0)):
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
-
+        self.counter, self.text = 60, '60'.rjust(10)
         self.bg_color = bg_color
         self.clock = pygame.time.Clock()
         font_size = int(self.scr_width/10)
         self.startItems = startItems
         self.font = pygame.font.SysFont(font, font_size)
         self.font_color = font_color
+
 
         '''''''''''
         START SCREEN
@@ -49,6 +50,7 @@ class GameMenu():
         self.maxRows = 6
         self.maxColumns = 6
 
+
         self.isDragging = False
 
 
@@ -63,18 +65,27 @@ class GameMenu():
         startDisplay = True
         gameDisplay = False
         endDisplay = False
-        time = 60
+        highScoreDisplay = False
+
 
         while mainloop:
             # Limit frame speed to 50 FPS
-            self.clock.tick(50)
+            self.clock.tick(200)
 
             # quit game
             for event in pygame.event.get():
+                if event.type == pygame.USEREVENT:
+                    self.counter -= 1
+                    if self.counter > 0:
+                        self.text = str(self.counter).rjust(10)
+                    else:
+                        gameDisplay = False
+                        endDisplay = True
                 if event.type == pygame.QUIT:
                     mainloop = False
-
-            # end of game display
+            '''''''''
+            end of game display
+            '''''''''
             if endDisplay:
                 endItem = ("Score: " + str(self.displayedScore))
                 endLabel = self.font.render(endItem, 1, font_color)
@@ -88,11 +99,12 @@ class GameMenu():
                 self.screen.fill(self.bg_color)
                 self.screen.blit(endLabel, (end_posx, end_posy))
 
-
-            # game display
+            '''''''''
+            game display
+            '''''''''
             if gameDisplay:
-
                 self.display()
+                print (self.text)
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.isDragging = True
 
@@ -104,10 +116,6 @@ class GameMenu():
                         self.displayedScore += self.score
                         Logic.addTile(board)
                     self.score = 0
-                    if self.displayedScore >= 60:
-                        gameDisplay = False
-                        self.screen.fill(self.bg_color)
-                        endDisplay = True
 
                 if self.isDragging:
                     if event.type == pygame.MOUSEMOTION:
@@ -135,7 +143,18 @@ class GameMenu():
                                     Logic.removeTile(board,selectedRow,selectedCol)
                                     self.score+=1
 
-            #start menu display
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.isDragging = False
+                    if self.score == 1:
+                        board.getBoard()[selectedRow][selectedCol] = selectedColour
+                    else:
+                        self.displayedScore += self.score
+                        Logic.addTile(board)
+                    self.score = 0
+
+            '''''''''
+            start menu display
+            '''''''''
             if startDisplay:
                 # Redraw the background
                 self.screen.fill(self.bg_color)
@@ -158,6 +177,7 @@ class GameMenu():
                                 startDisplay = False
                                 self.screen.fill(self.bg_color)
                                 self.delay()
+                                pygame.time.set_timer(pygame.USEREVENT, 1000)
                                 gameDisplay = True
                             elif index == 1:
                                 print("High Scores")
@@ -167,6 +187,7 @@ class GameMenu():
             pygame.display.flip()
 
     def display(self):
+        color = 0,0,0
         for row in range(6):
             for col in range(6):
                 if self.board.getBoard()[row][col] == "R":

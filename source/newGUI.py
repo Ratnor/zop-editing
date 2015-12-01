@@ -13,19 +13,22 @@ class GameMenu():
         self.scr_height = self.screen.get_rect().height
         self.counter, self.text = 60, '60'.rjust(1)
         self.bg_color = bg_color
+        self.bg = pygame.image.load("bgZop.jpg")
         self.clock = pygame.time.Clock()
         font_size = int(self.scr_width / 10)
+        title_font_size = font_size + 10
         self.startItems = startItems
         self.font = pygame.font.SysFont(font, font_size)
+        self.title_font = pygame.font.SysFont("aharoni", title_font_size)
         self.font_color = font_color
-
+        self.song = pygame.mixer.Sound("Daybreak.ogg")
         '''''''''''
         START SCREEN
         '''''''''''
         #get start labels
         self.startItems = []
         for index, item in enumerate(startItems):
-            label = self.font.render(item, 1, font_color)
+            label = self.font.render(item, 1, (255,255,255))
 
             width = label.get_rect().width
             height = label.get_rect().height
@@ -83,10 +86,11 @@ class GameMenu():
         endDisplay = False
         highScoreDisplay = False
         updateHighScores = False
+        self.song.play()
 
         while mainloop:
-            # Limit frame speed to 200 FPS
-            self.clock.tick(200)
+            # Limit frame speed to 120 FPS
+            self.clock.tick(120)
 
             # init event variable
             for event in pygame.event.get():
@@ -136,7 +140,7 @@ class GameMenu():
 
                 #main menu label
                 mmItem = ("Main Menu")
-                mmLabel = self.font.render(mmItem, 1, self.font_color)
+                mmLabel = self.font.render(mmItem, 1, (255,255,255))
 
                 mm_width = mmLabel.get_rect().width
                 mm_height = mmLabel.get_rect().width
@@ -146,7 +150,7 @@ class GameMenu():
 
                 #restart label
                 resItem = ("Restart")
-                resLabel = self.font.render(resItem, 1, self.font_color)
+                resLabel = self.font.render(resItem, 1, (255,255,255))
 
                 res_width = resLabel.get_rect().width
                 res_height = resLabel.get_rect().width
@@ -155,7 +159,7 @@ class GameMenu():
                 res_posy = self.scr_height - self.blockMargin * 5
 
                 # add labels onto screen
-                self.screen.fill(self.bg_color)
+                self.screen.blit(self.bg, (0,0))
                 self.screen.blit(endLabel, (end_posx, end_posy))
                 self.screen.blit(mmLabel, (mm_posx, mm_posy))
                 self.screen.blit(resLabel, (res_posx, res_posy))
@@ -254,7 +258,7 @@ class GameMenu():
                 hsItems = (title[0] + ":", score_1[0] + ". " + score_1[1], score_2[0] + ". " + score_2[1], score_3[0] + ". " + score_3[1])
                 self.hsItems = []
                 for index, item in enumerate(hsItems):
-                    label = self.font.render(item, 1, font_color)
+                    label = self.font.render(item, 1, (255,255,255))
 
                     hs_width = label.get_rect().width
                     hs_height = label.get_rect().height
@@ -267,7 +271,7 @@ class GameMenu():
 
                 #back label
                 backItem = ("Back")
-                backLabel = self.font.render(backItem, 1, self.font_color)
+                backLabel = self.font.render(backItem, 1, (255,255,255))
 
                 back_width = backLabel.get_rect().width
                 back_height = backLabel.get_rect().width
@@ -277,8 +281,10 @@ class GameMenu():
 
 
                 #redraw background, add labels
-                self.screen.fill(self.bg_color)
+                self.screen.blit(self.bg, (0,0))
+
                 for name, index, font_color, label, (hs_width, hs_height), (hs_posx, hs_posy) in self.hsItems:
+                    '''
                     pygame.draw.rect(self.screen, (0, 0, 0), (hs_posx - 6, hs_posy - 6, hs_width + 12, hs_height + 2), 1)
                     if index == 0:
                         pygame.draw.rect(self.screen, (255, 0, 0), (hs_posx - 5, hs_posy - 5, hs_width + 10, hs_height), 0)
@@ -288,6 +294,7 @@ class GameMenu():
                         pygame.draw.rect(self.screen, (0, 0, 255), (hs_posx - 5, hs_posy - 5, hs_width + 10, hs_height), 0)
                     if index == 3:
                         pygame.draw.rect(self.screen, (255, 0, 255), (hs_posx - 5, hs_posy - 5, hs_width + 10, hs_height), 0)
+                    '''
 
                     self.screen.blit(label, (hs_posx, hs_posy))
                 self.screen.blit(backLabel, (back_posx, back_posy))
@@ -305,8 +312,19 @@ class GameMenu():
             if startDisplay:
                 # Redraw the background
                 #start screen labels and add labels
-                self.screen.fill(self.bg_color)
+                self.screen.blit(self.bg, (0,0))
+
+                zopItem = ("ZOP")
+                zopLabel = self.title_font.render(zopItem, 1, (255,255,255))
+
+                zop_width = zopLabel.get_rect().width
+                zop_height = zopLabel.get_rect().width
+
+                zop_posx = (self.scr_width / 2) - (zop_width / 2)
+                zop_posy = self.blockMargin * 3
+
                 for name, index, font_color, label, (width, height), (posx, posy) in self.startItems:
+                    '''
                     pygame.draw.rect(self.screen, (0, 0, 0), (posx - 6, posy - 6, width + 12, height + 2), 1)
                     if index == 0:
                         pygame.draw.rect(self.screen, (255, 0, 0), (posx - 5, posy - 5, width + 10, height), 0)
@@ -314,8 +332,10 @@ class GameMenu():
                         pygame.draw.rect(self.screen, (0, 255, 0), (posx - 5, posy - 5, width + 10, height), 0)
                     if index == 2:
                         pygame.draw.rect(self.screen, (0, 0, 255), (posx - 5, posy - 5, width + 10, height), 0)
-
+                    '''
                     self.screen.blit(label, (posx, posy))
+                self.screen.blit(zopLabel, (zop_posx, zop_posy))
+
                 #label events
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
@@ -338,7 +358,7 @@ class GameMenu():
             pygame.display.flip()
 
     def display(self):
-        self.screen.fill(self.bg_color)
+        self.screen.blit(self.bg, (0,0))
         for row in range(6):
             for col in range(6):
                 if self.board.getBoard()[row][col] == "R":
@@ -352,15 +372,20 @@ class GameMenu():
                 elif self.board.getBoard()[row][col] == "B":
                     color = (0, 0, 255)  # blue
                 elif self.board.getBoard()[row][col] == 0:
-                    color = (0, 0, 0)  # black
+                    color = (255, 255, 255)  # black
+                pygame.draw.rect(self.screen, (255,255,255),
+                             [((self.blockMargin + self.blockWidth) * col + self.blockMargin) - 2,
+                              ((self.blockMargin + self.blockHeight) * row + self.blockMargin) - 2,
+                              self.blockWidth+4, self.blockHeight+4])
                 pygame.draw.rect(self.screen, color,
                                  [(self.blockMargin + self.blockWidth) * col + self.blockMargin,
                                   (self.blockMargin + self.blockHeight) * row + self.blockMargin,
                                   self.blockWidth, self.blockHeight])
 
+
             # timer label
             timerItem = ("Time: " + self.text)
-            timerLabel = self.font.render(timerItem, 1, self.font_color)
+            timerLabel = self.font.render(timerItem, 1, (255,255,255))
 
             timer_width = timerLabel.get_rect().width
 
@@ -371,7 +396,7 @@ class GameMenu():
 
             # score label
             scoreItem = ("Score: " + str(self.displayedScore))
-            scoreLabel = self.font.render(scoreItem, 1, self.font_color)
+            scoreLabel = self.font.render(scoreItem, 1, (255,255,255))
 
             score_width = scoreLabel.get_rect().width
 
@@ -383,7 +408,7 @@ class GameMenu():
 
             # restart label
             resItem = ("Restart")
-            self.resLabel = self.font.render(resItem, 1, self.font_color)
+            self.resLabel = self.font.render(resItem, 1, (255,255,255))
 
             self.res_width = self.resLabel.get_rect().width
             self.res_height = self.resLabel.get_rect().height
@@ -413,7 +438,7 @@ class GameMenu():
 
 if __name__ == "__main__":
     # Creating the screen
-    screenWidth = 1080
+    screenWidth = 640
     screenHeight = int(screenWidth - 3 * (screenWidth / 9))
     screen = pygame.display.set_mode((screenWidth, screenHeight), 0, 32)
 

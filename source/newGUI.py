@@ -22,6 +22,7 @@ class GameMenu():
         '''''''''''
         START SCREEN
         '''''''''''
+        #get start labels
         self.startItems = []
         for index, item in enumerate(startItems):
             label = self.font.render(item, 1, font_color)
@@ -59,12 +60,23 @@ class GameMenu():
         self.res_posx = 0
         self.res_posy = 0
 
+        #if file exists do nothing, else, create a new file with 0 in high scores
+        try:
+            hs_file = open("high_scores.txt", 'r')
+            hs_file.close()
+        except:
+            hs_file = hs_file = open("high_scores.txt", 'w')
+            hs_file.write("High Score List.\n1.0.\n2.0.\n3.0.")
+            hs_file.close()
+
+    #delay counter
     def delay(self):
         count = 0
         while count < 2000000:
             count += 1
 
     def run(self):
+        #state variables
         mainloop = True
         startDisplay = True
         gameDisplay = False
@@ -76,8 +88,9 @@ class GameMenu():
             # Limit frame speed to 200 FPS
             self.clock.tick(200)
 
-            # quit game
+            # init event variable
             for event in pygame.event.get():
+                #timer
                 if event.type == pygame.USEREVENT:
                     self.counter -= 1
                     if self.counter >= 0:
@@ -86,13 +99,14 @@ class GameMenu():
                         gameDisplay = False
                         updateHighScores = True
                         endDisplay = True
+                # quit
                 if event.type == pygame.QUIT:
                     mainloop = False
             '''''''''
             end of game display
             '''''''''
             if endDisplay:
-                # read, write to high scores txt file
+                # read, write to high scores txt file once when end display is called
                 if updateHighScores:
                     infile = open('high_scores.txt', 'r')
                     title = infile.readline().split('.')
@@ -110,6 +124,7 @@ class GameMenu():
 
                     updateHighScores = False
 
+                #score label
                 endItem = ("Score: " + str(self.displayedScore))
                 endLabel = self.font.render(endItem, 1, font_color)
 
@@ -119,6 +134,7 @@ class GameMenu():
                 end_posx = (self.scr_width / 2) - (width / 2)
                 end_posy = (self.scr_height / 2) - (height / 2)
 
+                #main menu label
                 mmItem = ("Main Menu")
                 mmLabel = self.font.render(mmItem, 1, self.font_color)
 
@@ -128,6 +144,7 @@ class GameMenu():
                 mm_posx = (self.gameWidth/3) - (mm_width / 2)
                 mm_posy = self.scr_height - self.blockMargin * 5
 
+                #restart label
                 resItem = ("Restart")
                 resLabel = self.font.render(resItem, 1, self.font_color)
 
@@ -137,11 +154,13 @@ class GameMenu():
                 res_posx = ((self.scr_width + self.gameWidth) / 2) - (res_width / 2)
                 res_posy = self.scr_height - self.blockMargin * 5
 
+                # add labels onto screen
                 self.screen.fill(self.bg_color)
                 self.screen.blit(endLabel, (end_posx, end_posy))
                 self.screen.blit(mmLabel, (mm_posx, mm_posy))
                 self.screen.blit(resLabel, (res_posx, res_posy))
 
+                #events and labels are pressed
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
                     if ((pos[0] >= mm_posx - 10) & (pos[0] <= mm_posx + mm_width + 5)) & ((pos[1] >= mm_posy - 10) & (pos[1] <= mm_posy + mm_height - 5)):
@@ -167,20 +186,25 @@ class GameMenu():
             game display
             '''''''''
             if gameDisplay:
-
+                # game display (w/ timer, score, board, and restart)
                 self.display()
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.isDragging = True
 
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.isDragging = False
+                    # if only one tile is selected, keep the same tile
                     if self.score == 1:
                         self.board.getBoard()[selectedRow][selectedCol] = selectedColour
+                    # else, update total score and board
                     else:
                         self.displayedScore += self.score
                         Logic.addTile(self.board)
+                    #turn score set to 0
                     self.score = 0
 
+                # when mouse button is down
                 if self.isDragging:
                     if event.type == pygame.MOUSEMOTION:
                         pos = pygame.mouse.get_pos()
@@ -192,19 +216,21 @@ class GameMenu():
                             if column >= self.maxColumns:
                                 column = 5
 
+                            #select first piece
                             if self.score == 0:
                                 selectedRow = row
                                 selectedCol = column
                                 selectedColour = self.board.getBoard()[row][column]
                                 Logic.removeTile(self.board, selectedRow, selectedCol)
                                 self.score += 1
-
+                            #for new pieces selected
                             if self.score >= 1:
                                 if Logic.adjacent(selectedRow, selectedCol, row, column) & Logic.colourMatch(self.board, row, column, selectedColour):  # if colours are the same, and the tiles are adjacent
                                     selectedRow = row
                                     selectedCol = column
                                     Logic.removeTile(self.board, selectedRow, selectedCol)
                                     self.score += 1
+                        # if restart is clicked, reset counter, board, and score
                         if ((pos[0] >= self.res_posx - 10) & (pos[0] <= self.res_posx + self.res_width + 5)) & ((pos[1] >= self.res_posy - 10) & (pos[1] <= self.res_posy + self.res_height - 5)):
                             self.board = Board()
                             self.counter = 60
@@ -216,6 +242,7 @@ class GameMenu():
             high score display
             '''''''''
             if highScoreDisplay:
+                #open high score txt file, get scores
                 infile = open('high_scores.txt', 'r')
                 title = infile.readline().split('.')
                 score_1 = infile.readline().split('.')
@@ -223,6 +250,7 @@ class GameMenu():
                 score_3 = infile.readline().split('.')
                 infile.close()
 
+                #high score labels
                 hsItems = (title[0] + ":", score_1[0] + ". " + score_1[1], score_2[0] + ". " + score_2[1], score_3[0] + ". " + score_3[1])
                 self.hsItems = []
                 for index, item in enumerate(hsItems):
@@ -237,6 +265,7 @@ class GameMenu():
 
                     self.hsItems.append([item, index, font_color, label, (hs_width, hs_height), (hs_posx, hs_posy)])
 
+                #back label
                 backItem = ("Back")
                 backLabel = self.font.render(backItem, 1, self.font_color)
 
@@ -247,7 +276,7 @@ class GameMenu():
                 back_posy = self.scr_height - self.blockMargin * 5
 
 
-
+                #redraw background, add labels
                 self.screen.fill(self.bg_color)
                 for name, index, font_color, label, (hs_width, hs_height), (hs_posx, hs_posy) in self.hsItems:
                     pygame.draw.rect(self.screen, (0, 0, 0), (hs_posx - 6, hs_posy - 6, hs_width + 12, hs_height + 2), 1)
@@ -262,7 +291,7 @@ class GameMenu():
 
                     self.screen.blit(label, (hs_posx, hs_posy))
                 self.screen.blit(backLabel, (back_posx, back_posy))
-
+                # back button event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
                     if ((pos[0] >= back_posx - 10) & (pos[0] <= back_posx + back_width + 5)) & ((pos[1] >= back_posy - 10) & (pos[1] <= back_posy + back_height - 5)):
@@ -275,6 +304,7 @@ class GameMenu():
             '''''''''
             if startDisplay:
                 # Redraw the background
+                #start screen labels and add labels
                 self.screen.fill(self.bg_color)
                 for name, index, font_color, label, (width, height), (posx, posy) in self.startItems:
                     pygame.draw.rect(self.screen, (0, 0, 0), (posx - 6, posy - 6, width + 12, height + 2), 1)
@@ -286,7 +316,7 @@ class GameMenu():
                         pygame.draw.rect(self.screen, (0, 0, 255), (posx - 5, posy - 5, width + 10, height), 0)
 
                     self.screen.blit(label, (posx, posy))
-
+                #label events
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
                     for name, index, font_color, label, (width, height), (posx, posy) in self.startItems:
@@ -362,7 +392,7 @@ class GameMenu():
             self.res_posy = self.scr_height - (self.blockMargin * 5)
 
             self.screen.blit(self.resLabel, (self.res_posx, self.res_posy))
-
+    # "sort" high score list
     def hsSort(self, currentScore, score1, score2, score3):
         if currentScore > score1:
             score3 = score2

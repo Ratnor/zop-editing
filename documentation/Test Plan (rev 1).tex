@@ -15,7 +15,9 @@
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{graphicx}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\graphicspath{ {images/} }
 
 \hypersetup{
     bookmarks=true,         % show bookmarks bar?
@@ -80,6 +82,10 @@
  \hline
  \textbf{Developer} & \textbf{Date} & \textbf{Change} & \textbf{Revision Number}\\
  \hline \hline
+ \textcolor{red}{Cole Blanchard} & \textcolor{red}{December 7 2015} & \textcolor{red}{Performance Testing}  & 8\\
+ \hline
+ \textcolor{red}{Ratna Emani} & \textcolor{red}{December 7 2015} & \textcolor{red}{Testing Schedule (Ratna), \newline Usability Testing} & 7\\
+ \hline
  Ratna Emani & November 27 2015 & Update Tex file & 6\\
  \hline
  Akshay Mantha & November 27 2015 & Update Test plan & 5\\
@@ -270,5 +276,18 @@ PyUnit will see, if parameters of the moveDown method are of correct type or not
 Unit testing can be used to see how robust the function is with respect to parameters.
 \subsubsection{Test for}
 The test validates throwing exceptions.
+
+\textcolor{red}{\section{Non Functional Testing}
+\subsection{Usablity Testing}
+Usability testing is a proficient way of measure real-user experience of any application. Companies that launch an software products usually dedicate a team of users called a focus group to test this. Followed by Alpha, and Beta testing done by select users/consumers. For usablility testing of Zop, we decided to ask few friends to play the game and write their suggestions/concerns as feedback.
+\subsection{Performance Testing}
+Performance testing is a good way of seeing how efficient the program it running.  It measures the speed of functions and how many times they are called throughout the program.  In Zop, performance testing will be measured by how many times functions are called throughout the program.  This will accomplish seeing how we can make the program better for the final product.}
+
+\textcolor{red}{\section{Test Scheduling}
+\begin{table}[h!]
+\includegraphics[width = 17cm]{ratnaSchedule}
+\caption{Testing Schedule}
+\end{table}}
+
 
 \end{document}

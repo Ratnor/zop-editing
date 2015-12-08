@@ -12,6 +12,7 @@
 \usepackage{xfrac}
 \usepackage{tabularx}
 \usepackage{float}
+\usepackage{soul}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{array}
@@ -82,7 +83,8 @@
  \hline
  \textbf{Developer} & \textbf{Date} & \textbf{Change} & \textbf{Revision Number}\\
  \hline \hline
- \textcolor{red}{Akshay Mantha} & \textcolor{red}{December 7 2015} & \textcolor{red}{Performance Testing}  & 9\\
+ \textcolor{red}{Akshay Mantha} & \textcolor{red}{December 7 2015} & \textcolor{red}{Testing Schedule (Akshay)}  & 9\\
+ \hline
  \textcolor{red}{Cole Blanchard} & \textcolor{red}{December 7 2015} & \textcolor{red}{Performance Testing}  & 8\\
  \hline
  \textcolor{red}{Ratna Emani} & \textcolor{red}{December 7 2015} & \textcolor{red}{Testing Schedule (Ratna), \newline Usability Testing} & 7\\
@@ -144,7 +146,10 @@ One way to make this possible is to minimize the user input to simple (straightf
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Automation Plans}
-Automated PyUnit testing will be used to ensure that the internal functions are operating correctly. Each function and objects will be tested by passing the appropriate values from the input domain range including the extremes. Some of the places automated testing can be used for is checking of the score board, checking if the colors of the selected tiles are matching correctly and if the tiles being generated are all within the color range. White box testing or Structural testing will not be automated for this program. We would like to use automation to mainly check functionality of the application. 
+Automated PyUnit testing will be used to ensure that the internal functions are operating correctly. Each function and objects will be tested by passing the appropriate values from the input domain range including the extremes. Some of the places automated testing can be used for is checking of the score board, checking if the colors of the selected tiles are matching correctly and if the tiles being generated are all within the color range. \st{White box testing or Structural testing will not be automated for this program}. We would like to use automation to mainly check functionality of the application. 
+\textcolor{red}{\subsection{Unit Testing}
+We will make use of the 'unittest' (of Python). We do not need drivers, but we will be using stubs for most of the unit tests. Stubs, mostly, include creating instances and objects of the involved (in testing a specific method) methods.
+As for code coverage metrics, we did not quantify the coverage, but we tested (covered) all important methods from all modules.}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,6 +159,7 @@ Automated PyUnit testing will be used to ensure that the internal functions are 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{System Tests}
+\textcolor{red}{Systems tests will, primarily, utilise the Logic.py module, which in turn utilises the Board.py module (which itself utilises the Tile.py module). This is a way in that the existing implementation will be tested.}
 %3.1 Tile(s) Removed and Value is set to 0
 \subsection{Tile(s) Removed and Value is set to 0}
 \subsubsection{Test type}
